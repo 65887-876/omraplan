@@ -33,8 +33,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />     {/* Path for Login */}
           
           {/* Profile route */}
-          <Route path="/profile" element={<Profile />} /> {/* Path for Profile page */}
-          <Route path="/parametre" element={<Parametre />} /> {/* Path for Profile page */}
+
         </Routes>
         <Footer />
       </div>

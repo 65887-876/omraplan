@@ -1,6 +1,27 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+
+// Function to fetch exchange rate with retry logic
+const fetchExchangeRate = async (retryCount = 3) => {
+  const url = 'https://v6.exchangerate-api.com/v6/a3b21661ae5e6d0aa32fb73d/pair/EUR/SAR';
+  try {
+    const response = await fetch(url);
+    if (response.status === 429) {
+      if (retryCount > 0) {
+        console.log('Rate limit exceeded, retrying...');
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before retrying
+        return fetchExchangeRate(retryCount - 1);
+      } else {
+        throw new Error('Too many requests. Please try again later.');
+      }
+    }
+    const data = await response.json();
+    return data.conversion_rate;
+  } catch (error) {
+    console.error('Failed to fetch exchange rate:', error);
+    return null;
+  }
+};
 
 const WeatherInfo = ({
   selectedLocation,
@@ -18,6 +39,7 @@ const WeatherInfo = ({
   const [currentLocationIndex, setCurrentLocationIndex] = useState(
     locations.indexOf(selectedLocation)
   );
+  const [rate, setRate] = useState(exchangeRate);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,6 +52,18 @@ const WeatherInfo = ({
   useEffect(() => {
     handleDotClick(locations[currentLocationIndex]);
   }, [currentLocationIndex]);
+
+  useEffect(() => {
+    const fetchRate = async () => {
+      const rate = await fetchExchangeRate();
+      setRate(rate);
+    };
+
+    fetchRate(); // Fetch immediately on mount
+    const interval = setInterval(fetchRate, 18000000); // Fetch every 5 hours
+
+    return () => clearInterval(interval); // Cleanup the interval on unmount
+  }, []);
 
   return (
     <div className="p-4 w-full max-w-[400px] sm:max-w-[500px] h-auto bg-white rounded-lg shadow">
@@ -104,7 +138,7 @@ const WeatherInfo = ({
         <div className="flex sm:mr-10 flex-col justify-between gap-2 w-[40%]">
           <p className="text-primary-5 font-plus-jakarta">Taux du jour</p>
           <p className=" pl-4 font-plus-jakarta font-bold text-primary-6 sm:text-[20px]">
-            {exchangeRate ? ` 1 € = ${exchangeRate.toFixed(2)} SAR` : ' Loading...'}
+            {rate ? ` 1 € = ${rate.toFixed(2)} SAR` : ' Loading...'}
           </p>
         </div>
       </div>

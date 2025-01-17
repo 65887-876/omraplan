@@ -1,0 +1,25 @@
+/* styles.css */
+.reset-tailwind * {
+    all: unset;
+    box-sizing: border-box;
+  }
+  
+  .slick-dots li {
+    margin: 0 3px;
+  }
+  
+  .slick-dots li button:before {
+    color: transparent;
+    content: '';
+  }
+  
+  .slick-dots li button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D0D6DB;
+  }
+  
+  .slick-dots li.slick-active button {
+    background: #987306; /* Change this to your secondary-6 color */
+  }

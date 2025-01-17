@@ -7,6 +7,7 @@ export default {
   ],
   theme: {
     extend: {
+      
       colors: {
         'dark': '#1C1C28', // Custom color used for text
         'primary': {

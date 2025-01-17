@@ -12,11 +12,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between w-full gap-6">
           {/* Left Content: Heading and Supporting Text */}
           <div className="flex flex-col items-start text-center md:text-left gap-2 md:w-[788px]">
-            {/* Heading */}
             <h4 className="text-gray-900 font-bold text-lg md:text-xl leading-8">
               S'abonner à notre newsletter
             </h4>
-            {/* Supporting Text */}
             <p className="text-gray-600 font-medium text-base md:text-lg leading-7 text-left">
             Vous serez les premiers à recevoir les meilleures offres
             </p>
@@ -25,23 +23,21 @@ const Footer = () => {
 
           {/* Right Content: Input and Button */}
           <div className="flex flex-col items-start justify-start sm:flex-row  gap-4 w-full sm:w-auto">
-            {/* Input Field */}
             <input
               type="text"
               placeholder="Enter your email"
               className="w-full sm:w-[349px] h-10 p-2 bg-white border border-gray-400 rounded-md shadow-sm"
             />
-            {/* Button */}
             <button className="sm:w-auto h-10 bg-gray-600 text-white text-sm font-bold rounded-md shadow-sm px-6">
             S'abonner
             </button>
           </div>
         </div>
 
-        {/* Divider */}
+        {/* divider */}
         <div className="w-full h-[1px] bg-gray-400 rounded-full"></div>
 
-        {/* Main Section */}
+        {/* main */}
         <div className="flex flex-col md:flex-row justify-between items-start w-full gap-8">
           {/* Logo and Description */}
           <div className="flex flex-col items-start md:items-start gap-4 md:w-[368px] text-center md:text-left">
@@ -57,9 +53,9 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Links Section */}
+          {/* links section */}
           <div className="md:flex md:flex-row md:w-full md:justify-evenly  flex flex-col gap-4  w-full ">
-            {/* Column 1 */}
+            {/* Col 1 */}
             <div className="flex flex-col gap-4">
               <h4 className="text-gray-900 md:text-h5 font-bold text-lg leading-8">
                 A propos
@@ -71,7 +67,7 @@ const Footer = () => {
                 <li>Vente flash</li>
               </ul>
             </div>
-            {/* Column 2 */}
+            {/* Col 2 */}
             <div className="flex  flex-col gap-4">
               <h4 className="text-gray-900 md:text-h5 font-bold text-lg leading-8">
                 Services
@@ -83,7 +79,7 @@ const Footer = () => {
                 <li>Location voiture</li>
               </ul>
             </div>
-            {/* Column 3 */}
+            {/* Col 3 */}
             <div className="flex flex-col gap-4">
               <h4 className="text-gray-900 md:text-h5 font-bold text-lg leading-8">
                 Autre
@@ -99,9 +95,9 @@ const Footer = () => {
         {/* Divider */}
         <div className="w-full h-[1px] bg-gray-400 rounded-full"></div>
 
-        {/* Footer Bottom */}
+        {/* footer */}
         <div className="flex flex-col md:flex-row items-center justify-between w-full sm:gap-4">
-          {/* Social Media Icons */}
+          {/* socials */}
           <div className="flex gap-4">
             <div className="flex items-center justify-center w-8 h-8 bg-[#987306] rounded-full">
               <FaFacebookF size={16} className="text-white" />
@@ -116,7 +112,7 @@ const Footer = () => {
 
           {/* Copyright Text */}
           <p className="text-[#0A2A3D] font-normal text-sm md:text-base leading-7 text-center md:text-left">
-            © 2021 Omra Bons Plans. Tous droits réservés.
+            © 2025 Omra Bons Plans. Tous droits réservés.
           </p>
         </div>
       </div>

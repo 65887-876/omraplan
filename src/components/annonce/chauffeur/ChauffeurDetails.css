@@ -1,0 +1,9 @@
+/* ChauffeurDetails.css */
+
+.slick-dots li button:before {
+    color: grey; /* Non-active dot color */
+  }
+  
+  .slick-dots li.slick-active button:before {
+    color: #6c757d; /* Secondary-6 color for active dot */
+  }

@@ -1,0 +1,20 @@
+/* TousAnnonce.css */
+
+/* Apply a default margin for larger mobile devices */
+.mobile-card-wrapper {
+    margin-right: 150px;
+  }
+  
+  /* Apply a larger margin for smaller mobile devices */
+  @media (max-width: 600px) {
+    .mobile-card-wrapper {
+      margin-right: 200px;
+    }
+  }
+  
+  /* Apply an even larger margin for very small mobile devices */
+  @media (max-width: 400px) {
+    .mobile-card-wrapper {
+      margin-right: 250px;
+    }
+  }

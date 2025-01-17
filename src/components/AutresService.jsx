@@ -4,13 +4,12 @@ import { FaUtensils, FaTrain, FaCar } from 'react-icons/fa';
 import frame from '../assets/frame.png';
 const AutresService = () => {
   return (
-    <div className="relative flex flex-col lg:flex-row  justify-between py-24  sm:px-20 gap-10 w-full bg-yellow-50">
+    <div className="relative flex flex-col lg:flex-row  justify-between py-24  sm:px-20  w-full bg-yellow-50">
       
       <div className='absolute top-0 right-0 sm:block'>
         <img src={frame} alt="" />
       </div>
 
-      {/* Left Section */}
       <div className="lg:w-1/2">
         <h2 className="text-4xl text-primary-10 font-bold font-plus-jakarta mb-6">
           Autres services
@@ -43,7 +42,6 @@ const AutresService = () => {
         </div>
       </div>
 
-      {/* Right Section */}
       <img
         src={Service}
         alt="Service Illustration"
@@ -55,7 +53,7 @@ const AutresService = () => {
 
 const InfoCard = ({ title, subtitle, Icon, iconStyle  }) => {
   return (
-    <div className="flex items-center bg-white p-4 rounded-lg shadow-md w-1/2">
+    <div className="flex items-center  bg-white p-4 rounded-lg shadow-md w-[80%]">
       <div
         className={`flex justify-center items-center w-12 h-12 rounded-[2px] ${iconStyle}`}
       >

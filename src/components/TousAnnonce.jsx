@@ -1,23 +1,36 @@
-import { useAnnonces } from "../context/context"; // Import the custom hook to access context
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Slider from "react-slick"; // For mobile swiper
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import VenteFlashCard from "./VenteFlashCard"; // Import the Card Component
-import { useState, useEffect } from "react";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { FaSuitcase, FaPlane, FaHotel, FaMapMarkedAlt, FaCar, FaBabyCarriage } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft, FaSuitcase, FaPlane, FaHotel, FaMapMarkedAlt, FaCar, FaBabyCarriage } from "react-icons/fa";
+import BabySitterCard from './annonce/BabySitter/BabySitterCard';
+import ChauffeurCard from './annonce/Chauffeur/ChauffeurCard';
+import GuideCard from './annonce/Guide/GuideCard';
+import HebergementCard from './annonce/Hebergement/HebergementCard';
+import SejourCard from './annonce/Sejour/SejourCard';
+import VolsCard from './annonce/Vols/VolsCard';
+import './TousAnnonce.css'; // Import the custom CSS for responsive margin
 
 const TousAnnonce = () => {
-  const { annonces } = useAnnonces(); // Get the annonces from the context
+  const [sejours, setSejours] = useState([]);
+  const [vols, setVols] = useState([]);
+  const [hebergements, setHebergements] = useState([]);
+  const [guides, setGuides] = useState([]);
+  const [chauffeurs, setChauffeurs] = useState([]);
+  const [babysitters, setBabysitters] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null); // Active category filter
+  const [currentIndex, setCurrentIndex] = useState(0); // Track visible items for desktop
+
   const sliderSettings = {
-    infinite: false,        // Disable infinite looping
-    speed: 500,             // Animation speed (in ms)
-    slidesToShow: 1.1,      // Show 1 card at a time on mobile
-    slidesToScroll: 1,      // Scroll 1 card at a time
-    arrows: false,          // No arrows
-    autoplay: false,         // Autoplay the slides
-    autoplaySpeed: 3000,    // Speed of autoplay (3 seconds)
-    swipeToSlide: true,     // Enable swipe to slide
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    swipeToSlide: true,
   };
 
   const categoriesWithIcons = [
@@ -29,13 +42,38 @@ const TousAnnonce = () => {
     { name: "babysitter", icon: <FaBabyCarriage /> },
   ];
 
-  const [activeCategory, setActiveCategory] = useState(null); // Active category filter
-  const [currentIndex, setCurrentIndex] = useState(0); // Track visible items for desktop
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sejourResponse = await axios.get('http://localhost:5000/api/auth/sejours');
+        const volResponse = await axios.get('http://localhost:5000/api/auth/vols');
+        const hebergementResponse = await axios.get('http://localhost:5000/api/auth/hebergements');
+        const guideResponse = await axios.get('http://localhost:5000/api/auth/guides');
+        const chauffeurResponse = await axios.get('http://localhost:5000/api/auth/chauffeurs');
+        const babysitterResponse = await axios.get('http://localhost:5000/api/auth/babysitters');
 
-  const tousAnnonces = categoriesWithIcons.reduce((acc, { name }) => {
-    const categoryAnnonces = annonces?.[name] || [];
-    return { ...acc, [name]: categoryAnnonces };
-  }, {});
+        setSejours(sejourResponse.data);
+        setVols(volResponse.data);
+        setHebergements(hebergementResponse.data);
+        setGuides(guideResponse.data);
+        setChauffeurs(chauffeurResponse.data);
+        setBabysitters(babysitterResponse.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const tousAnnonces = {
+    sejours,
+    vols,
+    hebergement: hebergements,
+    guide: guides,
+    chauffeur: chauffeurs,
+    babysitter: babysitters,
+  };
 
   const availableCategories = categoriesWithIcons.filter(({ name }) => tousAnnonces[name]?.length > 0);
 
@@ -116,7 +154,7 @@ const TousAnnonce = () => {
           onClick={handlePrev}
           disabled={currentIndex === 0}
         >
-          <FaChevronLeft className={`h-3 w-3 ${currentIndex + 4 < filteredAnnonces.length ? 'text-primary-6' : 'text-white'}`} />
+          <FaChevronLeft className={`h-3 w-3 ${currentIndex > 0 ? 'text-white' : 'text-primary-6'}`} />
         </button>
         <button
           className={`rounded-full p-3 ${currentIndex + 4 < filteredAnnonces.length ? 'bg-primary-6' : 'bg-white'}`}
@@ -127,7 +165,6 @@ const TousAnnonce = () => {
         </button>
       </div>
 
-
       {/* Desktop Grid */}
       <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6 mt-8">
         {filteredAnnonces.slice(currentIndex, currentIndex + 4).length > 0 ? (
@@ -135,7 +172,16 @@ const TousAnnonce = () => {
             const category = categoriesWithIcons.find(({ name }) =>
               tousAnnonces[name]?.includes(item)
             )?.name;
-            return <VenteFlashCard key={item.id} item={item} category={category} />;
+            return (
+              <div key={item.id} className="desktop-card-wrapper">
+                {category === 'sejours' && <SejourCard sejour={item} />}
+                {category === 'vols' && <VolsCard vol={item} />}
+                {category === 'hebergement' && <HebergementCard hebergement={item} />}
+                {category === 'guide' && <GuideCard guide={item} />}
+                {category === 'chauffeur' && <ChauffeurCard chauffeur={item} />}
+                {category === 'babysitter' && <BabySitterCard babysitter={item} />}
+              </div>
+            );
           })
         ) : (
           <p className="col-span-4 text-center text-gray-500">Aucune annonce en cours.</p>
@@ -150,7 +196,16 @@ const TousAnnonce = () => {
               const category = categoriesWithIcons.find(({ name }) =>
                 tousAnnonces[name]?.includes(item)
               )?.name;
-              return <VenteFlashCard key={item.id} item={item} category={category} />;
+              return (
+                <div key={item.id} className="mobile-card-wrapper">
+                  {category === 'sejours' && <SejourCard sejour={item} />}
+                  {category === 'vols' && <VolsCard vol={item} />}
+                  {category === 'hebergement' && <HebergementCard hebergement={item} />}
+                  {category === 'guide' && <GuideCard guide={item} />}
+                  {category === 'chauffeur' && <ChauffeurCard chauffeur={item} />}
+                  {category === 'babysitter' && <BabySitterCard babysitter={item} />}
+                </div>
+              );
             })
           ) : (
             <p className="text-center text-gray-500">Aucune annonce en cours.</p>
@@ -160,7 +215,10 @@ const TousAnnonce = () => {
 
       <div className="px-4">
         <button className="text-secondary-7 w-full font-plus-jakarta font-bold sm:w-[230px] h-[50px] bg-neutral-1 rounded-xl mt-8 mx-auto border border-secondary-7 hover:bg-secondary-4 hover:text-white transition duration-300 ease-in-out cursor-pointer">
-          <a className="flex justify-center gap-2 items-center"><span>Voir toutes les annonces </span> <FaChevronRight className="mt-[1px]"/></a>
+          <a className="flex justify-center gap-2 items-center">
+            <span>Voir toutes les annonces</span>
+            <FaChevronRight className="mt-[1px]" />
+          </a>
         </button>
       </div>
     </div>
