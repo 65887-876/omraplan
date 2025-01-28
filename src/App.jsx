@@ -5,6 +5,8 @@ import VentesFlash from './components/VentesFlash';
 import Footer from './components/Footer';
 import ReductionOmra from './components/ReductionOmra';
 import AutresService from './components/AutresService';
+import Whatsapp from './components/whatsapp';
+
 import TousAnnonces from './components/TousAnnonce';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -92,6 +94,7 @@ const App = () => {
 
         </Routes>
         {!isCreateAnnonceRoute && <Footer />}
+        <Whatsapp />
       </div>
     </div>
   );

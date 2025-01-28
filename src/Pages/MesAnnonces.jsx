@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for react-toastify
 import Chauffeurs from './categories/Chauffeurs';
 import Guides from './categories/Guides';
 import Hebergements from './categories/Hebergements';
@@ -73,6 +75,9 @@ const MesAnnonces = () => {
           [category]: updatedCategoryAnnonces
         };
       });
+
+      // Show success message
+      toast.success('Annonce deleted successfully!');
     } catch (error) {
       console.error('Error deleting annonce:', error.response ? error.response.data : error.message);
     }
@@ -104,6 +109,7 @@ const MesAnnonces = () => {
 
   return (
     <div className="flex flex-col items-center p-16 gap-16 w-full min-h-[952px] bg-yellow-50 z-2">
+      <ToastContainer /> {/* Add ToastContainer here */}
       <div className="w-full max-w-screen-xl mb-4">
         <h1 className="text-xl font-semibold text-gray-700"><span className='text-secondary-6'>Accueil</span> / Mes Annonces</h1>
       </div>
