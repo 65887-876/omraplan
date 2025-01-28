@@ -15,10 +15,6 @@ const AutresService = () => {
           Autres services
         </h2>
         <p className="font-plus-jakarta font-normal text-lg text-primary-6 mb-8">
-          Explorez nos services complémentaires pour un voyage sans souci.
-          Transferts, visites guidées, conseils locaux... tout ce dont vous avez
-          besoin pour une expérience inoubliable est ici. Simplifiez votre
-          voyage avec nous.
         </p>
         <div className="flex flex-col gap-4">
           <InfoCard

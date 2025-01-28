@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
 const Profile = () => {
+  const { id } = useParams(); // Get the user ID from the URL
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,8 +21,8 @@ const Profile = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/auth/profile', {
-          method: 'PUT', 
+        const response = await fetch(`http://localhost:5000/api/auth/profile/${id}`, {
+          method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -43,7 +45,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -79,11 +81,9 @@ const Profile = () => {
       setError('Aucun token trouvé');
       return;
     }
-    console.log("Updated Data to Send:", userData);
-    
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/profile', {
+      const response = await fetch(`http://localhost:5000/api/auth/profile/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -121,15 +121,12 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-yellow-50 to-yellow-100">
-              <div className="mb-4 text-gray-600">
-          <span className="text-sm">/accueil/profile</span>
-        </div>
-        <h1 className="text-h1 font-semibold text-center text-gray-700 mb-6">Profil</h1>
+      <div className="mb-4 text-gray-600">
+        <span className="text-sm">/accueil/profile/{id}</span>
+      </div>
+      <h1 className="text-h1 font-semibold text-center text-gray-700 mb-6">Profil</h1>
 
-      <div className="  px-4 py-6">
-        {/* Path */}
-
-        
+      <div className="px-4 py-6">
         <div className="flex justify-start">
           <div className="bg-white p-8 rounded-lg shadow-lg w-[840px]">
             <form onSubmit={handleSubmit}>
@@ -220,7 +217,7 @@ const Profile = () => {
                   id="facebook"
                   type="url"
                   name="facebook"
-                  value={userData?.socialLinks.facebook || ''}
+                  value={userData?.socialLinks?.facebook || ''}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md"
                   disabled={!isEditing}
@@ -233,7 +230,7 @@ const Profile = () => {
                   id="instagram"
                   type="url"
                   name="instagram"
-                  value={userData?.socialLinks.instagram || ''}
+                  value={userData?.socialLinks?.instagram || ''}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md"
                   disabled={!isEditing}

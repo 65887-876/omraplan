@@ -30,6 +30,8 @@ import HebergementDetails from './components/annonce/Hebergement/HebergementDeta
 import VenteFlashPage from './components/annonce/venteflash/VenteFlashPage';
 import TousLesVentesPage from './components/annonce/touslesventes/TousLesVentesPage';
 import ScrollToTop from '../src/components/ScrollToTop';
+import AdminPage from './Pages/admin/AdminPage';
+import ClientPage from './Pages/admin/ClientPage';
 
 const App = () => {
   const location = useLocation();
@@ -64,6 +66,8 @@ const App = () => {
           <Route path="/parametre" element={<Parametre />} />
           <Route path="/createannonce/*" element={<CreateAnnonce />} />
           <Route path="/mesAnnonces" element={<MesAnnonces />} />
+          <Route path="/mesannonces/:userId" element={<MesAnnonces />} /> 
+
           <Route path="/horairepriere" element={<HorairePriereMain />} /> 
           <Route path="/vols" element={<VolsPage />} /> 
           <Route path="/chauffeur" element={<ChauffeurPage />} /> 
@@ -82,7 +86,9 @@ const App = () => {
           <Route path="/hebergement/:id" element={<HebergementDetails />} /> 
           <Route path="/venteflash" element={<VenteFlashPage />} />
           <Route path="/touslesventes" element={<TousLesVentesPage />} />
-
+          <Route path="/admin/*" element={<AdminPage />} />
+          <Route path="/client" element={<ClientPage />} />
+          <Route path="/profile/:id" element={<Profile />} />
 
         </Routes>
         {!isCreateAnnonceRoute && <Footer />}
